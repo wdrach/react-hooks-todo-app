@@ -8,7 +8,7 @@ firebase-debug.log*
 firebase-debug.*.log*
 
 # build
-build/
+build/*
 
 # Firebase cache
 .firebase/
