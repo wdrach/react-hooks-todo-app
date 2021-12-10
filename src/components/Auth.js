@@ -9,6 +9,7 @@ function Auth(props) {
 		e.preventDefault();
         const email = e.target.email.value;
         const password = e.target.password.value;
+        // todo can we move this logic out to an action?
         firebase.login({email, password})
             .then(() => console.log('success!'))
             .catch((err) => {

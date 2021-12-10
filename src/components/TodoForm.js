@@ -1,16 +1,22 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import { useFirestore } from "react-redux-firebase";
 import { addTodo } from "../redux/Todo/todo.actions";
 
-function TodoForm({ addTodo }) {
+function TodoForm({ auth }) {
+	// TODO - state is probably unneccesary here
 	const [value, setValue] = useState("");
+
+	const firestore = useFirestore();
 	
 	const handleSubmit = e => {
 		e.preventDefault();
 		if (!value) return;
-		addTodo({text: value});
+		firestore.add('todos', {text: value, highPriority: false, isCompleted: false, user: auth.email});
 		setValue("");
 	};
+
+	if (auth.isEmpty) return null;
 	
 	return (
 		<form onSubmit={handleSubmit}>
@@ -25,7 +31,7 @@ function TodoForm({ addTodo }) {
 	);
 }
 
-const mapStateToProps = () => ({});
+const mapStateToProps = ({firebase: {auth}}) => ({auth});
   
 const mapDispatchToProps = dispatch => {
 	return {
