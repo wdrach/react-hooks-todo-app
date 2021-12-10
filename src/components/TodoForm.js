@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
+import { addTodo } from "../redux/Todo/todo.actions";
 
 function TodoForm({ addTodo }) {
 	const [value, setValue] = useState("");
@@ -6,7 +8,7 @@ function TodoForm({ addTodo }) {
 	const handleSubmit = e => {
 		e.preventDefault();
 		if (!value) return;
-		addTodo(value);
+		addTodo({text: value});
 		setValue("");
 	};
 	
@@ -23,4 +25,12 @@ function TodoForm({ addTodo }) {
 	);
 }
 
-export default TodoForm;
+const mapStateToProps = () => ({});
+  
+const mapDispatchToProps = dispatch => {
+	return {
+		addTodo: (todo) => addTodo(todo)(dispatch),
+	};
+}
+  
+export default connect(mapStateToProps, mapDispatchToProps)(TodoForm);
