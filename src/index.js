@@ -9,6 +9,7 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 import { ReactReduxFirebaseProvider } from "react-redux-firebase";
+import { createFirestoreInstance } from "redux-firestore";
 
 
 // Your web app's Firebase configuration
@@ -23,6 +24,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+firebase.firestore();
 
 const rrfConfig = {
     userProfile: 'users',
@@ -32,8 +34,8 @@ const rrfConfig = {
 const rrfProps = {
     firebase,
     config: rrfConfig,
-    dispatch: store.dispatch
-    // createFirestoreInstance // <- needed if using firestore
+    dispatch: store.dispatch,
+    createFirestoreInstance
 }
 
 ReactDOM.render(

@@ -1,8 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
+import { useFirestore } from "react-redux-firebase";
 import { completeTodo, removeTodo } from "../redux/Todo/todo.actions";
 
-function Todo({ todo, index, completeTodo, removeTodo }) {
+function Todo({todo, index}) {
+	const firestore = useFirestore();
+
 	return (
 		<div
 			className="todo"
@@ -11,8 +14,9 @@ function Todo({ todo, index, completeTodo, removeTodo }) {
 			{todo.text}
 			
 			<div>
-				<button onClick={() => completeTodo(index)}>{todo.isCompleted ? "Not done" : "Done"}</button>
-				<button onClick={() => removeTodo(index)}>x</button>
+				<button onClick={() => firestore.update(`todos/${todo.id}`, {...todo, highPriority: !todo.highPriority})}>{todo.highPriority ? "High Priority" : "Low Priority"}</button>
+				<button onClick={() => firestore.update(`todos/${todo.id}`, {...todo, isCompleted: !todo.isCompleted})}>{todo.isCompleted ? "Not done" : "Done"}</button>
+				<button onClick={() => firestore.delete(`todos/${todo.id}`)}>x</button>
 			</div>
 		</div>
 	);
