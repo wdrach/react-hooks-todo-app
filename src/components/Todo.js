@@ -1,10 +1,21 @@
 import React from "react";
 import { connect } from "react-redux";
 import { useFirestore } from "react-redux-firebase";
-import { completeTodo, removeTodo } from "../redux/Todo/todo.actions";
 
-function Todo({todo, index}) {
+function Todo({todo, auth}) {
 	const firestore = useFirestore();
+
+	let buttons = (<div></div>);
+
+	if (!auth.isEmpty) {
+		buttons = (
+			<div>
+				<button onClick={() => firestore.update(`todos/${todo.id}`, {...todo, highPriority: !todo.highPriority})}>{todo.highPriority ? "High Priority" : "Low Priority"}</button>
+				<button onClick={() => firestore.update(`todos/${todo.id}`, {...todo, isCompleted: !todo.isCompleted})}>{todo.isCompleted ? "Not done" : "Done"}</button>
+				<button onClick={() => firestore.delete(`todos/${todo.id}`)}>x</button>
+			</div>
+		)
+	}
 
 	return (
 		<div
@@ -12,23 +23,11 @@ function Todo({todo, index}) {
 			style={{ textDecoration: todo.isCompleted ? "line-through" : "" }}
 		>
 			{todo.text}
-			
-			<div>
-				<button onClick={() => firestore.update(`todos/${todo.id}`, {...todo, highPriority: !todo.highPriority})}>{todo.highPriority ? "High Priority" : "Low Priority"}</button>
-				<button onClick={() => firestore.update(`todos/${todo.id}`, {...todo, isCompleted: !todo.isCompleted})}>{todo.isCompleted ? "Not done" : "Done"}</button>
-				<button onClick={() => firestore.delete(`todos/${todo.id}`)}>x</button>
-			</div>
+			{buttons}
 		</div>
 	);
 }
 
-const mapStateToProps = () => ({});
-
-const mapDispatchToProps = dispatch => {
-	return {
-		removeTodo: (i) => removeTodo(i)(dispatch),
-		completeTodo: (i) => completeTodo(i)(dispatch),
-	};
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Todo);
+const mapStateToProps = ({firebase: {auth}}) => ({auth});
+  
+export default connect(mapStateToProps)(Todo);
