@@ -1,4 +1,6 @@
 import React from "react";
+import { connect } from "react-redux";
+import { completeTodo, removeTodo } from "../redux/Todo/todo.actions";
 
 function Todo({ todo, index, completeTodo, removeTodo }) {
 	return (
@@ -16,4 +18,13 @@ function Todo({ todo, index, completeTodo, removeTodo }) {
 	);
 }
 
-export default Todo;
+const mapStateToProps = () => ({});
+
+const mapDispatchToProps = dispatch => {
+	return {
+		removeTodo: (i) => removeTodo(i)(dispatch),
+		completeTodo: (i) => completeTodo(i)(dispatch),
+	};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Todo);
