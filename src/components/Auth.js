@@ -17,12 +17,11 @@ function Auth({toggleLogin}) {
         firebase.login(state)
             .then(() => console.log('success!'))
             .catch((err) => {
-                console.log(err.code);
                 if (err.code === 'auth/user-not-found') {
                     firebase.createUser(state);
                     toggleLogin();
                 } else {
-                    // todo handle real error
+                    setState({...state, error: true})
                 }
             });
     };
@@ -34,6 +33,7 @@ function Auth({toggleLogin}) {
                 <Button onClick={toggleLogin} style={{position: 'absolute', top: '10px', right: '10px'}}>X</Button>
             </WindowHeader>
             <WindowContent>
+                {state.error && (<span style={{color: 'red'}}>Incorrect email or password</span>)}
                 <form onSubmit={handleLogin}>
                     Email
                     <TextField value={state.email} onChange={(e) => setState({...state, email: e.target.value})}/>

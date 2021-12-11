@@ -35,13 +35,13 @@ function Footer({auth, login, start, toggleLogin, toggleStart, toggleTodos}) {
                     }}
                     onClick={() => (!auth.isEmpty && toggleStart())}
                     >
-						<ListItem onClick={() => toggleTodos()}>
-							<span role='img' aria-label='☑️'>
-								☑️
-							</span>
-							Todos
-						</ListItem>
-						<Divider />
+                        <ListItem onClick={() => toggleTodos()}>
+                            <span role='img' aria-label='☑️'>
+                                ☑️
+                            </span>
+                            Todos
+                        </ListItem>
+                        <Divider />
                         {auth.isEmpty ?
                             (<ListItem  onClick={() => {
                                 toggleLogin();
@@ -76,7 +76,7 @@ const mapDispatchToProps = dispatch => {
     return {
         toggleLogin: () => toggleLogin()(dispatch),
         toggleStart: () => toggleStart()(dispatch),
-		toggleTodos: () => toggleTodos()(dispatch),
+        toggleTodos: () => toggleTodos()(dispatch),
     };
 }
   
