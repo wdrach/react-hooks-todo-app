@@ -1,10 +1,10 @@
 import { firebaseReducer } from 'react-redux-firebase';
 import { firestoreReducer } from 'redux-firestore';
 import { combineReducers } from 'redux';
-import todoReducer from './Todo/todo.reducer';
+import windowReducer from './Window/window.reducer';
 
 const rootReducer = combineReducers({
-    todo: todoReducer,
+    windows: windowReducer,
     firebase: firebaseReducer,
     firestore: firestoreReducer,
 });

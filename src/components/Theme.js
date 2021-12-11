@@ -2,21 +2,28 @@ import React from "react";
 
 import { connect } from "react-redux"
 import { useFirebase } from "react-redux-firebase";
+import { Checkbox } from "react95";
 
-function Theme(props) {
-	const firebase = useFirebase();
+function Theme({auth, profile}) {
+    const firebase = useFirebase();
 
-	const updateTheme = () => {
-		firebase.updateProfile({darkmode: !props.profile.darkmode});
-	};
+    const updateTheme = () => {
+        firebase.updateProfile({darkmode: !profile.darkmode});
+    };
 
-	return (
-		<div className="theme">
-			<input type="checkbox" value={props.profile.darkmode ? 'on' : 'off'} onChange={updateTheme} />
-		</div>
-	);
+    if (auth.isEmpty) return null;
+
+    return (
+        <Checkbox
+			style={{position: 'absolute', right: '70px', top: '10px'}}
+            name='darkmode'
+            value={profile.darkmode ? 'on' : 'off'}
+            onChange={updateTheme}
+            label='Dark Mode'
+        />
+    );
 }
 
-const mapStateToProps = ({firebase: {profile}}) => ({profile});
+const mapStateToProps = ({firebase: {profile, auth}}) => ({profile, auth});
   
 export default connect(mapStateToProps)(Theme);

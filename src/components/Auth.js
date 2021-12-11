@@ -1,50 +1,58 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { useFirebase } from "react-redux-firebase";
+import { Button, TextField, Window, WindowContent, WindowHeader } from "react95";
+import { toggleLogin } from "../redux/Window/window.actions";
 
-function Auth(props) {
+function Auth({toggleLogin}) {
     const firebase = useFirebase();
+    
+    // this could technically happen in redux, but since we only use it here
+    // it seems fine to use the internal state
+    const [state, setState] = useState({});
 
-	const handleLogin = e => {
-		e.preventDefault();
-        const email = e.target.email.value;
-        const password = e.target.password.value;
-        // todo can we move this logic out to an action?
-        firebase.login({email, password})
+    const handleLogin = e => {
+        e.preventDefault();
+
+        firebase.login(state)
             .then(() => console.log('success!'))
             .catch((err) => {
                 console.log(err.code);
                 if (err.code === 'auth/user-not-found') {
-                    firebase.createUser({email, password});
+                    firebase.createUser(state);
+                    toggleLogin();
                 } else {
                     // todo handle real error
                 }
             });
-	};
+    };
 
-    if (!props.auth.isEmpty) {
-        console.log(props.auth)
-        return (
-            <p>{props.auth.email}</p>
-        )
-    }
-	
-	return (
-		<form onSubmit={handleLogin}>
-			<input
-                name="email"
-				type="text"
-				placeholder="email@mail.com"
-			/>
-            <input
-                name="password"
-                type="password"
-            />
-            <button type="submit">Log In</button>
-		</form>
-	);
+    return (
+        <Window style={{position: 'absolute', top: '25vh', left: '10vw', width: '500px'}}>
+            <WindowHeader>
+                <span>login.exe</span>
+                <Button onClick={toggleLogin} style={{position: 'absolute', top: '10px', right: '10px'}}>X</Button>
+            </WindowHeader>
+            <WindowContent>
+                <form onSubmit={handleLogin}>
+                    Email
+                    <TextField value={state.email} onChange={(e) => setState({...state, email: e.target.value})}/>
+                    Password
+                    <TextField value={state.password} type="password" onChange={(e) => setState({...state, password: e.target.value})}/>
+                    <Button type="submit">Log In</Button>
+                    <Button type="submit">Sign Up</Button>
+                </form>
+            </WindowContent>
+        </Window>
+    );
 }
 
 const mapStateToProps = ({firebase: {auth, profile}}) => ({auth, profile});
+
+const mapDispatchToProps = dispatch => {
+    return {
+        toggleLogin: () => toggleLogin()(dispatch),
+    };
+}
   
-export default connect(mapStateToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);
