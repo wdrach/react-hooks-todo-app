@@ -9,20 +9,20 @@ function Header({auth, toggleAbout}) {
     return (
         <AppBar>
             <Toolbar style={{height: 50}}>
-				<Button variant="menu" onClick={toggleAbout}>About</Button>
-				<Button variant="menu" disabled>File</Button>
-				{!auth.isEmpty ? (
-					<span style={{width: '100%'}}>
-						<Theme />
-						<Avatar size={50} style={{background: '#3498db', position: 'absolute', right: '10px', top: '2px'}}>
-							{auth.email.slice(0, 1).toUpperCase()}
-						</Avatar>
-					</span>
-				) : (
-					<Avatar size={50} style={{background: '#e74c3c', position: 'absolute', right: '10px', top: '2px'}}>
-						?
-					</Avatar>
-				)}
+                <Button variant="menu" onClick={toggleAbout}>About</Button>
+                <Button variant="menu" disabled>File</Button>
+                {!auth.isEmpty ? (
+                    <span style={{width: '100%'}}>
+                        <Theme />
+                        <Avatar size={50} style={{background: '#3498db', position: 'absolute', right: '10px', top: '2px'}}>
+                            {auth.email.slice(0, 1).toUpperCase()}
+                        </Avatar>
+                    </span>
+                ) : (
+                    <Avatar size={50} style={{background: '#e74c3c', position: 'absolute', right: '10px', top: '2px'}}>
+                        ?
+                    </Avatar>
+                )}
             </Toolbar>
         </AppBar>
     );

@@ -4,6 +4,8 @@ import { useFirestore } from "react-redux-firebase";
 import { TextField } from "react95";
 
 function TodoForm({ auth }) {
+    // could probably use Redux here, technically, but since it's just an internal state
+    // I think this is fine
     const [val, setVal] = useState();
 
     const firestore = useFirestore();

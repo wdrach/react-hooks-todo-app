@@ -11,7 +11,7 @@ import 'firebase/compat/firestore';
 import { ReactReduxFirebaseProvider } from "react-redux-firebase";
 import { createFirestoreInstance } from "redux-firestore";
 
-// Your web app's Firebase configuration
+// before you ask, yes this is meant to be client facing information. Security is handled independently of this api key
 const firebaseConfig = {
     apiKey: "AIzaSyA77ridGPYFc8FmE-KY1qOvyBmIBc9-2vY",
     authDomain: "wdrach-react-todo.firebaseapp.com",

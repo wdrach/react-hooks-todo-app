@@ -15,7 +15,7 @@ function Theme({auth, profile}) {
 
     return (
         <Checkbox
-			style={{position: 'absolute', right: '70px', top: '10px'}}
+            style={{position: 'absolute', right: '70px', top: '10px'}}
             name='darkmode'
             value={profile.darkmode ? 'on' : 'off'}
             onChange={updateTheme}
